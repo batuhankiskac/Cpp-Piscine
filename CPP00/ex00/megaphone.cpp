@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
 		while (*argv)
 		{
 			str = *argv;
-			for (size_t i = 0; i < str.length(); i++)
+			for (int i = 0; i < str.length(); i++)
 				str[i] = std::toupper(str[i]);
 			std::cout << str;
 			argv++;
