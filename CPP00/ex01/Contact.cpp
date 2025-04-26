@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Contact.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bkiskac <bkiskac@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 15:55:11 by bkiskac           #+#    #+#             */
-/*   Updated: 2025/04/26 16:00:26 by bkiskac          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Contact.hpp"
 
 void Contact::setFirstName(std::string firstName)
@@ -69,5 +57,4 @@ void Contact::printContact() const
 	std::cout << "Nickname: " << this->nickname << std::endl;
 	std::cout << "Phone Number: " << this->phoneNumber << std::endl;
 	std::cout << "Darkest Secret: " << this->darkestSecret << std::endl;
-	std::cout << "----------------------------------------" << std::endl;
 }

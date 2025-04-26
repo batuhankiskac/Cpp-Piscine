@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   PhoneBook.hpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bkiskac <bkiskac@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 16:03:23 by bkiskac           #+#    #+#             */
-/*   Updated: 2025/04/26 16:09:34 by bkiskac          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PHONEBOOK_HPP
 #define PHONEBOOK_HPP
 
@@ -17,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <sstream>
 
 class PhoneBook
 {
@@ -28,7 +17,7 @@ class PhoneBook
 	public:
 		PhoneBook();
 		void addContact(const Contact &contact);
-		void searchContact() const;
+		void listContacts() const;
 		bool showContact(int index) const;
 };
 
