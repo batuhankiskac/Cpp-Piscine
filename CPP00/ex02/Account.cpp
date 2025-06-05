@@ -117,7 +117,7 @@ void Account::_displayTimestamp(void)
 {
 	char buffer[20];
 
-	std::time_t now = std::time(nullptr);
+       std::time_t now = std::time(NULL);
 	std::tm *tm_now = std::localtime(&now);
 	std::strftime(buffer, sizeof(buffer), "[%Y%m%d_%H%M%S] ", tm_now);
 	std::cout << buffer;
