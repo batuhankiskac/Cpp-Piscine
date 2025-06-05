@@ -1,13 +1,16 @@
-NAME = megaphone
+NAME = main
+
 CC = c++
+
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = megaphone.cpp
+SRCS = main.cpp Zombie.cpp zombieHorde.cpp
+
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 $(NAME): $(OBJS)
-	$(CC) $(CPPFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
