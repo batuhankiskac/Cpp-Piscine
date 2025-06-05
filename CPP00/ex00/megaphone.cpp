@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cctype>
 
 int main(int argc, char const *argv[])
 {
@@ -12,8 +13,8 @@ int main(int argc, char const *argv[])
 		while (*argv)
 		{
 			str = *argv;
-			for (int i = 0; i < str.length(); i++)
-				str[i] = std::toupper(str[i]);
+                        for (std::size_t i = 0; i < str.length(); ++i)
+                                str[i] = std::toupper(static_cast<unsigned char>(str[i]));
 			std::cout << str;
 			argv++;
 		}
