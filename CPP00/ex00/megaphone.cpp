@@ -13,8 +13,8 @@ int main(int argc, char const *argv[])
 		while (*argv)
 		{
 			str = *argv;
-                        for (std::size_t i = 0; i < str.length(); ++i)
-                                str[i] = std::toupper(static_cast<unsigned char>(str[i]));
+            for (std::size_t i = 0; i < str.length(); ++i)
+                str[i] = std::toupper(str[i]);
 			std::cout << str;
 			argv++;
 		}
