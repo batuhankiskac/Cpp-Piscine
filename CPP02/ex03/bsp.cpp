@@ -8,6 +8,6 @@ bool bsp(const Point &a, const Point &b, const Point &c, const Point &point) {
 	Fixed d3 = (point.getX() - c.getX()) * (a.getY() - c.getY())
 			 - (point.getY() - c.getY()) * (a.getX() - c.getX());
 
-	return ((d1 > Fixed(0) && d2 > Fixed(0) && d3 > Fixed(0)) ||
-			(d1 < Fixed(0) && d2 < Fixed(0) && d3 < Fixed(0)));
+	return ((d1 >= Fixed(0) && d2 >= Fixed(0) && d3 >= Fixed(0)) ||
+			(d1 <= Fixed(0) && d2 <= Fixed(0) && d3 <= Fixed(0)));
 }
