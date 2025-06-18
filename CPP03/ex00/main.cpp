@@ -11,9 +11,8 @@ int main() {
 	c.beRepaired(10);
 
 	ClapTrap d("D");
-	for (int i = 0; i < 11; ++i) {
+	for (int i = 0; i < 11; ++i)
 		d.beRepaired(1);
-	}
 	d.attack("A");
 
 	ClapTrap e("E");
