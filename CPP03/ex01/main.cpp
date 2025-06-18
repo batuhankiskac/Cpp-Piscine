@@ -32,5 +32,5 @@ int main()
 	polyPtr->attack("the concept of polymorphism");
 	delete polyPtr;
 
-	return 0;
+	return (0);
 }

@@ -1,36 +1,49 @@
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
+#include "FragTrap.hpp"
 #include <iostream>
 
 int main()
 {
-	{
-		ScavTrap scav("SC4V-TP");
-		scav.attack("a random target");
-		scav.takeDamage(20);
-		scav.beRepaired(10);
-		scav.guardGate();
-	}
+	ClapTrap clap("CL4P-TP");
+	ScavTrap scav("SC4V-TP");
+	FragTrap frag("FR4G-TP");
 
 	std::cout << std::endl;
 
-	ScavTrap deadScav("Deady");
-	deadScav.takeDamage(100);
-	deadScav.attack("another target");
-	deadScav.guardGate();
+	clap.attack("a training dummy");
+	scav.attack("a bigger training dummy");
+	frag.attack("the biggest training dummy");
 
 	std::cout << std::endl;
 
-	ScavTrap tiredScav("Tired");
-	for (int i = 0; i < 51; ++i)
-		tiredScav.attack("the same target over and over");
-	tiredScav.beRepaired(20);
+	scav.guardGate();
+	frag.highFivesGuys();
+	frag.takeDamage(90);
 
 	std::cout << std::endl;
 
-	ClapTrap* polyPtr = new ScavTrap("Poly");
-	polyPtr->attack("the concept of polymorphism");
-	delete polyPtr;
+	ClapTrap* base_scav = new ScavTrap("PolyScav");
+	ClapTrap* base_frag = new FragTrap("PolyFrag");
 
-	return 0;
+	std::cout << std::endl;
+
+	base_scav->attack("the floor");
+	base_frag->attack("the ceiling");
+
+	std::cout << std::endl;
+
+	delete base_scav;
+	delete base_frag;
+
+	std::cout << std::endl;
+
+	FragTrap tiredFrag("TiredFrag");
+	for (int i = 0; i < 101; i++)
+		tiredFrag.beRepaired(1);
+	tiredFrag.highFivesGuys();
+
+	std::cout << std::endl;
+
+	return (0);
 }
