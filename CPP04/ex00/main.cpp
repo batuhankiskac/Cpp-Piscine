@@ -11,8 +11,9 @@ int main()
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
 
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
+	std::cout << "Object meta is of type: " << meta->getType() << std::endl;
+	std::cout << "Object i is of type: " << i->getType() << std::endl;
+	std::cout << "Object j is of type: " << j->getType() << std::endl;
 	i->makeSound(); //will output the cat sound!
 	j->makeSound();
 	meta->makeSound();
