@@ -1,37 +1,49 @@
 #include "Animal.hpp"
 #include "Dog.hpp"
 #include "Cat.hpp"
-#include "WrongAnimal.hpp"
-#include "WrongCat.hpp"
+#include "Brain.hpp"
 #include <iostream>
 
 int main()
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
+    std::cout << "--- Deep Copy Test ---" << std::endl;
 
-	std::cout << "Object meta is of type: " << meta->getType() << std::endl;
-	std::cout << "Object i is of type: " << i->getType() << std::endl;
-	std::cout << "Object j is of type: " << j->getType() << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound();
-	meta->makeSound();
+    Cat* original = new Cat();
+    original->setIdea(0, "I should chase that red dot.");
 
-	delete meta;
-	delete j;
-	delete i;
+    Cat* copy = new Cat(*original);
 
-	// Wrong animal tests
-	const WrongAnimal* wrongMeta = new WrongAnimal();
-	const WrongAnimal* wrongCat = new WrongCat();
+    std::cout << "Original Cat's Idea: " << original->getIdea(0) << std::endl;
+    std::cout << "Copied Cat's Idea:   " << copy->getIdea(0) << std::endl;
 
-	std::cout << wrongCat->getType() << " " << std::endl;
-	wrongCat->makeSound();
-	wrongMeta->makeSound();
+    std::cout << "\n-> Changing the original Cat's idea...\n" << std::endl;
+    original->setIdea(0, "Maybe I'll take a nap instead.");
 
-	delete wrongMeta;
-	delete wrongCat;
+    std::cout << "Original Cat's Idea: " << original->getIdea(0) << std::endl;
+    std::cout << "Copied Cat's Idea:   " << copy->getIdea(0) << std::endl;
 
-	return (0);
+    delete original;
+    delete copy;
+
+    std::cout << "\n--- Array Test ---" << std::endl;
+
+    const int animalCount = 4;
+    Animal* animals[animalCount];
+
+    for (int i = 0; i < animalCount; ++i)
+    {
+        if (i < animalCount / 2)
+            animals[i] = new Dog();
+        else
+            animals[i] = new Cat();
+        std::cout << std::endl;
+    }
+
+    for (int i = 0; i < animalCount; ++i)
+    {
+        delete animals[i];
+        std::cout << std::endl;
+    }
+
+    return 0;
 }
