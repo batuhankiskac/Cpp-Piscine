@@ -21,8 +21,7 @@ Account::Account(int initial_deposit) :
 			  << ";created" << std::endl;
 }
 
-Account::~Account(void)
-{
+Account::~Account(void) {
 	_displayTimestamp();
 	std::cout << "index:" << _accountIndex
 			  << ";amount:" << _amount
@@ -31,28 +30,23 @@ Account::~Account(void)
 	_totalAmount -= _amount;
 }
 
-int Account::getNbAccounts(void)
-{
+int Account::getNbAccounts(void) {
 	return (_nbAccounts);
 }
 
-int Account::getTotalAmount(void)
-{
+int Account::getTotalAmount(void) {
 	return (_totalAmount);
 }
 
-int Account::getNbDeposits(void)
-{
+int Account::getNbDeposits(void) {
 	return (_totalNbDeposits);
 }
 
-int Account::getNbWithdrawals(void)
-{
+int Account::getNbWithdrawals(void) {
 	return (_totalNbWithdrawals);
 }
 
-void Account::displayAccountsInfos(void)
-{
+void Account::displayAccountsInfos(void) {
 	_displayTimestamp();
 	std::cout << "accounts:" << _nbAccounts
 			  << ";total:" << _totalAmount
@@ -60,8 +54,7 @@ void Account::displayAccountsInfos(void)
 			  << ";withdrawals:" << _totalNbWithdrawals << std::endl;
 }
 
-void Account::makeDeposit(int deposit)
-{
+void Account::makeDeposit(int deposit) {
 	int p_amount = _amount;
 
 	_amount += deposit;
@@ -76,8 +69,7 @@ void Account::makeDeposit(int deposit)
 			  << ";nb_deposits:" << _nbDeposits << std::endl;
 }
 
-bool Account::makeWithdrawal(int withdrawal)
-{
+bool Account::makeWithdrawal(int withdrawal) {
 	int p_amount = _amount;
 
 	_displayTimestamp();
@@ -99,13 +91,11 @@ bool Account::makeWithdrawal(int withdrawal)
 	return (true);
 }
 
-int Account::checkAmount(void) const
-{
+int Account::checkAmount(void) const {
 	return (_amount);
 }
 
-void Account::displayStatus(void) const
-{
+void Account::displayStatus(void) const {
 	_displayTimestamp();
 	std::cout << "index:" << _accountIndex
 			  << ";amount:" << _amount
@@ -113,8 +103,7 @@ void Account::displayStatus(void) const
 			  << ";withdrawals:" << _nbWithdrawals << std::endl;
 }
 
-void Account::_displayTimestamp(void)
-{
+void Account::_displayTimestamp(void) {
 	char buffer[20];
 
     std::time_t now = std::time(NULL);

@@ -7,8 +7,7 @@
 #include <iomanip>
 #include <sstream>
 
-class PhoneBook
-{
+class PhoneBook {
 	private:
 		Contact contacts[8];
 		int nextIndex;

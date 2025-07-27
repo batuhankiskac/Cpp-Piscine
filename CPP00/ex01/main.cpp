@@ -1,17 +1,14 @@
 #include "PhoneBook.hpp"
 
-int main(void)
-{
+int main(void) {
 	PhoneBook phoneBook;
 	std::string cmd;
 
-	while (true)
-	{
+	while (true) {
 		std::cout << "Enter a command (ADD, SEARCH, EXIT): ";
 		if (!std::getline(std::cin, cmd))
 			break;
-		if (cmd == "ADD")
-		{
+		if (cmd == "ADD") {
 			Contact c;
 			std::string input;
 
@@ -42,8 +39,7 @@ int main(void)
 
 			phoneBook.addContact(c);
 		}
-		else if (cmd == "SEARCH")
-		{
+		else if (cmd == "SEARCH") {
 			phoneBook.listContacts();
 
 			std::cout << "Index: ";
@@ -52,8 +48,7 @@ int main(void)
 
 			std::istringstream iss(cmd);
 			int index;
-			if (!(iss >> index))
-			{
+			if (!(iss >> index)) {
 				std::cout << "Invalid index format." << std::endl;
 				continue;
 			}

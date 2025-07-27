@@ -2,17 +2,14 @@
 #include <cctype>
 #include <string>
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
 	std::string str;
 
 	if (argc == 1)
 		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
-	else
-	{
+	else {
 		argv++;
-		while (*argv)
-		{
+		while (*argv) {
 			str = *argv;
             for (std::size_t i = 0; i < str.length(); ++i)
                 str[i] = std::toupper(str[i]);
