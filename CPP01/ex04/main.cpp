@@ -7,13 +7,13 @@ static bool processFile(const std::string &inputFile,
 						const std::string &s1,
 						const std::string &s2)
 {
-	std::ifstream input(inputFile);
+	std::ifstream input(inputFile.c_str());
 	if (!input.is_open()) {
 		std::cerr << "Error: Could not open file " << inputFile << std::endl;
 		return (false);
 	}
 
-	std::ofstream output(outputFile);
+	std::ofstream output(outputFile.c_str());
 	if (!output.is_open()) {
 		std::cerr << "Error: Could not open file " << outputFile << std::endl;
 		input.close();
