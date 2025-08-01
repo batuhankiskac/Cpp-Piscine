@@ -1,8 +1,8 @@
 NAME = Account
 
-CC = c++
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = Account.cpp tests.cpp
 
@@ -10,7 +10,7 @@ OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
 $(NAME): $(OBJS)
-	$(CC) $(CPPFLAGS) -o $(NAME) $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 clean:
 	rm -f $(OBJS)
