@@ -6,9 +6,7 @@
 
 int main()
 {
-	//------------------------------------------------------------------//
 	std::cout << "--- Subject's Mandatory Test ---" << std::endl;
-	//------------------------------------------------------------------//
 	{
 		IMateriaSource* src = new MateriaSource();
 		src->learnMateria(new Ice());
@@ -36,9 +34,7 @@ int main()
 	std::cout << "\n//------------------------------------------------------------------//\n" << std::endl;
 
 
-	//------------------------------------------------------------------//
 	std::cout << "--- Character Copy and Assignment (Deep Copy) Test ---" << std::endl;
-	//------------------------------------------------------------------//
 	{
 		Character* original = new Character("Original");
 		IMateriaSource* src = new MateriaSource();
@@ -73,9 +69,7 @@ int main()
 	std::cout << "\n//------------------------------------------------------------------//\n" << std::endl;
 
 
-	//------------------------------------------------------------------//
 	std::cout << "--- Inventory and Edge Case Tests ---" << std::endl;
-	//------------------------------------------------------------------//
 	{
 		ICharacter* hero = new Character("Hero");
 		IMateriaSource* src = new MateriaSource();
@@ -97,7 +91,6 @@ int main()
 		std::cout << "> Using invalid slot (4):" << std::endl;
 		hero->use(4, *hero);
 
-		AMateria* unequippedMateria = NULL;
 		hero->unequip(1);
 		std::cout << "> Unequipped materia from slot 1. Now using it (should do nothing):" << std::endl;
 		hero->use(1, *hero);
