@@ -22,18 +22,24 @@ int main() {
 		std::cerr << e.what() << std::endl;
 	}
 
-	printTitle("Test 2: Create Bureaucrat with invalid grade");
+	printTitle("Test 2: Create Bureaucrat with invalid high grade");
 	try {
 		Bureaucrat b4("InvalidHigh", 0);
 		std::cout << b4 << std::endl;
 
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTitle("Test 3: Create Bureaucrat with invalid low grade");
+	try {
 		Bureaucrat b5("InvalidLow", 151);
 		std::cout << b5 << std::endl;
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
 
-	printTitle("Test 3: Increment+");
+	printTitle("Test 4: Increment+");
 	try {
 		Bureaucrat b6("Batuhan", 1);
 		std::cout << b6 << std::endl;
@@ -43,7 +49,7 @@ int main() {
 		std::cerr << e.what() << std::endl;
 	}
 
-	printTitle("Test 4: Decrement-");
+	printTitle("Test 5: Decrement-");
 	try {
 		Bureaucrat b7("Zeynep", 150);
 		std::cout << b7 << std::endl;

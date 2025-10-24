@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 #include <iostream>
 
 void printTitle(std::string title)
@@ -8,47 +9,71 @@ void printTitle(std::string title)
 
 int main() {
 
-	printTitle("Test 1: Create Bureaucrat with valid grade");
+	printTitle("Test 1: Valid Form Creation");
 	try {
-		Bureaucrat b1("Ali", 75);
+		Form f1("FormA", 50, 100);
+		std::cout << f1 << std::endl;
+
+		Form f2("FormB", 1, 1);
+		std::cout << f2 << std::endl;
+
+		Form f3("FormC", 150, 150);
+		std::cout << f3 << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTitle("Test 2: Invalid Form Creation with invalid high grade");
+	try {
+		Form f4("InvalidHigh", 0, 100);
+		std::cout << f4 << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTitle("Test 3: Invalid Form Creation with invalid low grade");
+	try {
+		Form f5("InvalidLow", 151, 100);
+		std::cout << f5 << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTitle("Test 4: Bureaucrat signing forms (Successful)");
+	try {
+		Bureaucrat b1("Alice", 30);
+		Form f6("FormD", 50, 100);
 		std::cout << b1 << std::endl;
+		std::cout << f6 << std::endl;
 
-		Bureaucrat b2("Mehmet", 1);
+		b1.signForm(f6);
+		std::cout << f6 << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTitle("Test 5: Bureaucrat signing forms (Failure(Grade Too Low))");
+	try {
+		Bureaucrat b2("Bob", 100);
+		Form f7("FormE", 50, 100);
 		std::cout << b2 << std::endl;
+		std::cout << f7 << std::endl;
 
-		Bureaucrat b3("Ayse", 150);
+		b2.signForm(f7);
+		std::cout << f7 << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	printTitle("Test 6: Bureaucrat signing forms (Exact Grade)");
+	try {
+		Bureaucrat b3("Charlie", 50);
+		Form f8("FormF", 50, 100);
 		std::cout << b3 << std::endl;
-	} catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
+		std::cout << f8 << std::endl;
 
-	printTitle("Test 2: Create Bureaucrat with invalid grade");
-	try {
-		Bureaucrat b4("InvalidHigh", 0);
-		std::cout << b4 << std::endl;
-
-		Bureaucrat b5("InvalidLow", 151);
-		std::cout << b5 << std::endl;
-	} catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
-
-	printTitle("Test 3: Increment+");
-	try {
-		Bureaucrat b6("Batuhan", 1);
-		std::cout << b6 << std::endl;
-
-		b6.incrementGrade();
-	} catch (const std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
-
-	printTitle("Test 4: Decrement-");
-	try {
-		Bureaucrat b7("Zeynep", 150);
-		std::cout << b7 << std::endl;
-
-		b7.decrementGrade();
+		b3.signForm(f8);
+		std::cout << f8 << std::endl;
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
