@@ -8,7 +8,7 @@ static bool initSeed() {
 	static bool isSeeded = false;
 
 	if (!isSeeded) {
-		std::srand(std::time(nullptr));
+		std::srand(std::time(NULL));
 		isSeeded = true;
 	}
 	return (isSeeded);
