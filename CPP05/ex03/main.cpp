@@ -3,6 +3,7 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
 #include <iostream>
 
 void printTitle(std::string title)
@@ -11,38 +12,49 @@ void printTitle(std::string title)
 }
 
 int main() {
-	printTitle("Creating Bureaucrats");
-	Bureaucrat lowB("LowGrade", 150);
-	Bureaucrat midB("MidGrade", 75);
-	Bureaucrat highB("HighGrade", 1);
-
-	std::cout << lowB << std::endl;
-	std::cout << midB << std::endl;
+	printTitle("Creating Intern and Bureaucrat");
+	Intern intern;
+	Bureaucrat highB("Batu", 1);
+	
 	std::cout << highB << std::endl;
 
-	ShrubberyCreationForm shrubForm("shrubbery");
-	RobotomyRequestForm robotForm("robotomy");
-	PresidentialPardonForm pardonForm("pardon");
+	AForm *form1;
+	AForm *form2;
+	AForm *form3;
+	AForm *form4;
 
-	printTitle("Test 1: ShrubberyCreationForm");
-	lowB.signForm(shrubForm);
-	lowB.executeForm(shrubForm);
-	midB.executeForm(shrubForm);
+	printTitle("Intern Making Forms");
+	try {
+		form1 = intern.makeForm("robotomy request", "robotomy");
+		form2 = intern.makeForm("shrubbery creation", "shrubbery");
+		form3 = intern.makeForm("presidential pardon", "presidential");
+		form4 = intern.makeForm("unknown form", "target");
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
 
-	printTitle("Test 2: RobotomyRequestForm");
-	midB.executeForm(robotForm);
-	midB.signForm(robotForm);
-	midB.executeForm(robotForm);
-	midB.executeForm(robotForm);
-	midB.executeForm(robotForm);
-	midB.executeForm(robotForm);
-	midB.executeForm(robotForm);
+	printTitle("Bureaucrat Signing Forms");
+	try {
+		highB.signForm(*form1);
+		highB.signForm(*form2);
+		highB.signForm(*form3);
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
 
-	printTitle("Test 3: PresidentialPardonForm");
-	highB.executeForm(pardonForm);
-	midB.signForm(pardonForm);
-	highB.signForm(pardonForm);
-	highB.executeForm(pardonForm);
+	printTitle("Bureaucrat Executing Forms");
+	try {
+		highB.executeForm(*form1);
+		highB.executeForm(*form2);
+		highB.executeForm(*form3);
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+
+	delete form1;
+	delete form2;
+	delete form3;
+	delete form4;
 
 	return (0);
 }
