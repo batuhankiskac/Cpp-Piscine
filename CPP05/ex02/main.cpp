@@ -25,7 +25,7 @@ int main() {
 	PresidentialPardonForm pardonForm("pardon");
 
 	printTitle("Test 1: ShrubberyCreationForm");
-	lowB.signForm(shrubForm);
+	midB.signForm(shrubForm);
 	lowB.executeForm(shrubForm);
 	midB.executeForm(shrubForm);
 
