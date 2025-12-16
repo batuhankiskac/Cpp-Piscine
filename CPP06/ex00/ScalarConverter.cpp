@@ -45,6 +45,40 @@ e_type ScalarConverter::detectType(const std::string &str) {
     return TOKEN_INT;
 }
 
+void ScalarConverter::printChar(char c) {
+	std::cout << "char: ";
+	if (std::isprint(c))
+		std::cout << "'" << c << "'\n";
+	else
+		std:: cout << "Non displayable\n";
+
+	std::cout << "int: " << static_cast<int>(c) << "\n";
+	std::cout << "float: " << static_cast<float>(c) << ".0f\n";
+	std::cout << "double: " << static_cast<double>(c) << ".0\n";
+}
+
+void ScalarConverter::printInt(int i) {
+	std::cout << "char: ";
+	if (i < std::numeric_limits<char>::min() || i > std::numeric_limits<char>::max())
+		std::cout << "impossible\n";
+	else if (!std::isprint(i))
+		std:: cout << "Non displayable\n";
+	else
+		std::cout << "'" << static_cast<char>(i) << "'\n";
+
+	std::cout << "int: "<< i << "\n";
+	std::cout << "float: " << static_cast<float>(i) << ".0f\n";
+	std::cout << "double: " << static_cast<double>(i) << ".0\n";
+}
+
+void ScalarConverter::printFloat(float f)
+{
+}
+
+void ScalarConverter::printDouble(double d)
+{
+}
+
 void ScalarConverter::convert(const std::string &str)
 {
 	e_type type = detectType(str);
