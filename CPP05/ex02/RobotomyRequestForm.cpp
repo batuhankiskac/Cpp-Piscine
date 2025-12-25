@@ -49,7 +49,7 @@ void RobotomyRequestForm::execute(const Bureaucrat& executor) const {
 	if (executor.getGrade() > getGradeToExecute())
 		throw AForm::GradeTooLowException();
 
-	std::cout << "*DRILLING...*" << std::endl;
+	std::cout << "*TRAK TAK TAK...*" << std::endl;
 
 	if (std::rand() % 2)
 		std::cout << _target << " has been robotomized successfully." << std::endl;
