@@ -30,6 +30,161 @@ size_t PmergeMe::getJacobsthal(size_t n) {
 	return current;
 }
 
+void PmergeMe::sortVector(std::vector<int>& arr) {
+	if (arr.size() <= 1) return;
+
+	int remainder = -1;
+	if (arr.size() % 2 != 0) {
+		remainder = arr.back();
+		arr.pop_back();
+	}
+
+	std::vector<std::pair<int, int>> pairs;
+	std::vector<int> winners;
+
+	for (size_t i = 0; i < arr.size(); i += 2) {
+		int a = arr[i];
+		int b = arr[i + 1];
+		if (a > b) {
+			pairs.push_back(std::make_pair(a, b));
+			winners.push_back(a);
+		} else {
+			pairs.push_back(std::make_pair(b, a));
+			winners.push_back(b);
+		}
+	}
+
+	sortVector(winners);
+
+	std::vector<int> losers;
+	for (size_t i = 0; i < winners.size(); ++i) {
+		for (size_t j = 0; j < pairs.size(); ++j) {
+			if (pairs[j].first == winners[i]) {
+				losers.push_back(pairs[j].second);
+				break;
+			}
+		}
+	}
+
+	if (!losers.empty()) {
+		winners.insert(winners.begin(), losers[0]);
+	}
+
+	size_t jacobIndex = 3;
+	size_t prevJacob = 1;
+	size_t insertedCount = 1;
+
+	while (insertedCount < losers.size()) {
+		size_t currentJacob = getJacobsthal(jacobIndex);
+		size_t limit = currentJacob;
+
+		if (limit > losers.size())
+			limit = losers.size();
+
+		for (size_t i = limit; i > prevJacob; --i) {
+			int val = losers[i - 1];
+
+			int partner = -1;
+			for (size_t p = 0; p < pairs.size(); ++p) {
+				if (pairs[p].second == val) {
+					partner = pairs[p].first;
+					break;
+				}
+			}
+
+			std::vector<int>::iterator end_it = std::find(winners.begin(), winners.end(), partner);
+			std::vector<int>::iterator pos = std::lower_bound(winners.begin(), end_it, val);
+
+			winners.insert(pos, val);
+		}
+
+		insertedCount += (limit - prevJacob);
+		prevJacob = currentJacob;
+		jacobIndex++;
+	}
+
+	if (remainder != -1) {
+		std::vector<int>::iterator pos = std::lower_bound(winners.begin(), winners.end(), remainder);
+		winners.insert(pos, remainder);
+	}
+
+	arr = winners;
+}
+void PmergeMe::sortDeque(std::deque<int>& arr) {
+	if (arr.size() <= 1) return;
+
+	int remainder = -1;
+	if (arr.size() % 2 != 0) {
+		remainder = arr.back();
+		arr.pop_back();
+	}
+
+	std::deque<std::pair<int, int>> pairs;
+	std::deque<int> winners;
+
+	for (size_t i = 0; i < arr.size(); i += 2) {
+		int a = arr[i];
+		int b = arr[i + 1];
+		if (a > b) {
+			pairs.push_back(std::make_pair(a, b));
+			winners.push_back(a);
+		} else {
+			pairs.push_back(std::make_pair(b, a));
+			winners.push_back(b);
+		}
+	}
+
+	sortDeque(winners);
+
+	std::deque<int> losers;
+	for (size_t i = 0; i < winners.size(); ++i) {
+		for (size_t j = 0; j < pairs.size(); ++j) {
+			if (pairs[j].first == winners[i]) {
+				losers.push_back(pairs[j].second);
+				break;
+			}
+		}
+	}
+
+	if (!losers.empty()) {
+		winners.insert(winners.begin(), losers[0]);
+	}
+
+	size_t jacobIndex = 3;
+	size_t prevJacob = 1;
+	size_t insertedCount = 1;
+
+	while (insertedCount < losers.size()) {
+		size_t currentJacob = getJacobsthal(jacobIndex);
+		size_t limit = currentJacob;
+		if (limit > losers.size()) limit = losers.size();
+
+		for (size_t i = limit; i > prevJacob; --i) {
+			int val = losers[i - 1];
+			int partner = -1;
+			for (size_t p = 0; p < pairs.size(); ++p) {
+				if (pairs[p].second == val) {
+					partner = pairs[p].first;
+					break;
+				}
+			}
+			std::deque<int>::iterator end_it = std::find(winners.begin(), winners.end(), partner);
+			std::deque<int>::iterator pos = std::lower_bound(winners.begin(), end_it, val);
+			winners.insert(pos, val);
+		}
+		insertedCount += (limit - prevJacob);
+		prevJacob = currentJacob;
+		jacobIndex++;
+	}
+
+	if (remainder != -1) {
+		std::deque<int>::iterator pos = std::lower_bound(winners.begin(), winners.end(), remainder);
+		winners.insert(pos, remainder);
+	}
+
+	arr = winners;
+}
+
 void PmergeMe::execute(int argc, char **argv) {
 	std::vector<int> vec;
 	std::deque<int> deq;
@@ -45,6 +200,10 @@ void PmergeMe::execute(int argc, char **argv) {
 		}
 
 		int value = std::atoi(arg.c_str());
+		if (std::find(vec.begin(), vec.end(), value) != vec.end()) {
+			std::cerr << "Error\n";
+			return;
+		}
 		vec.push_back(value);
 		deq.push_back(value);
 	}

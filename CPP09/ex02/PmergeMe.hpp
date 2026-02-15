@@ -18,10 +18,7 @@ public:
 	void execute(int argc, char **argv);
 private:
 	void sortVector(std::vector<int>& arr);
-	void insertVector(std::vector<int>& mainChain, int value);
-
 	void sortDeque(std::deque<int>& arr);
-	void insertDeque(std::deque<int>& mainChain, int value);
 
 	size_t getJacobsthal(size_t n);
 };
