@@ -39,7 +39,7 @@ void PmergeMe::sortVector(std::vector<int>& arr) {
 		arr.pop_back();
 	}
 
-	std::vector<std::pair<int, int>> pairs;
+	std::vector<std::pair<int, int> > pairs;
 	std::vector<int> winners;
 
 	for (size_t i = 0; i < arr.size(); i += 2) {
@@ -119,7 +119,7 @@ void PmergeMe::sortDeque(std::deque<int>& arr) {
 		arr.pop_back();
 	}
 
-	std::deque<std::pair<int, int>> pairs;
+	std::deque<std::pair<int, int> > pairs;
 	std::deque<int> winners;
 
 	for (size_t i = 0; i < arr.size(); i += 2) {
