@@ -42,6 +42,12 @@ bool BitcoinExchange::isValidDate(const std::string& date) const {
 	if (date.length() != 10 || date[4] != '-' || date[7] != '-') {
 		return false;
 	}
+	for (size_t i = 0; i < date.length(); ++i) {
+		if (i != 4 && i != 7
+			&& !std::isdigit(static_cast<unsigned char>(date[i]))) {
+			return false;
+		}
+	}
 
 	int year = std::atoi(date.substr(0, 4).c_str());
 	int month = std::atoi(date.substr(5, 2).c_str());
@@ -83,7 +89,7 @@ void BitcoinExchange::processLine(const std::string& line) const {
 
 	char *endPtr;
 	double value = std::strtod(valueStr.c_str(), &endPtr);
-	if (valueStr.empty() || *endPtr != '\0') {
+	if (valueStr.empty() || *endPtr != '\0' || value != value) {
 		std::cerr << "Error: bad input => " << line << std::endl;
 		return;
 	}

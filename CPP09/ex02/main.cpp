@@ -7,8 +7,13 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	PmergeMe pmm;
-	pmm.execute(argc, argv);
+	try {
+		PmergeMe pmm;
+		pmm.execute(argc, argv);
+	} catch (const std::exception& e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 
 	return 0;
 }

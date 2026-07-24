@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
+#include <cctype>
 
 class BitcoinExchange {
 private:

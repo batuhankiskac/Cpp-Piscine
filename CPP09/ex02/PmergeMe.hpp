@@ -7,6 +7,9 @@
 #include <string>
 #include <ctime>
 #include <algorithm>
+#include <cctype>
+#include <climits>
+#include <stdexcept>
 
 class PmergeMe {
 public:
@@ -21,6 +24,7 @@ private:
 	void sortDeque(std::deque<int>& arr);
 
 	size_t getJacobsthal(size_t n);
+	int parsePositiveInteger(const std::string& arg) const;
 };
 
 #endif

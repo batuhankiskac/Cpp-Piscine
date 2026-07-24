@@ -13,6 +13,28 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 
 PmergeMe::~PmergeMe() { }
 
+int PmergeMe::parsePositiveInteger(const std::string& arg) const {
+	if (arg.empty()) {
+		throw std::runtime_error("Error");
+	}
+
+	long value = 0;
+	for (size_t i = 0; i < arg.size(); ++i) {
+		if (!std::isdigit(static_cast<unsigned char>(arg[i]))) {
+			throw std::runtime_error("Error");
+		}
+		int digit = arg[i] - '0';
+		if (value > (INT_MAX - digit) / 10) {
+			throw std::runtime_error("Error");
+		}
+		value = value * 10 + digit;
+	}
+	if (value == 0) {
+		throw std::runtime_error("Error");
+	}
+	return static_cast<int>(value);
+}
+
 size_t PmergeMe::getJacobsthal(size_t n) {
 	if (n == 0) return 0;
 	if (n == 1) return 1;
@@ -57,10 +79,14 @@ void PmergeMe::sortVector(std::vector<int>& arr) {
 	sortVector(winners);
 
 	std::vector<int> losers;
+	std::vector<int> partners;
+	std::vector<bool> paired(pairs.size(), false);
 	for (size_t i = 0; i < winners.size(); ++i) {
 		for (size_t j = 0; j < pairs.size(); ++j) {
-			if (pairs[j].first == winners[i]) {
+			if (!paired[j] && pairs[j].first == winners[i]) {
 				losers.push_back(pairs[j].second);
+				partners.push_back(pairs[j].first);
+				paired[j] = true;
 				break;
 			}
 		}
@@ -83,14 +109,7 @@ void PmergeMe::sortVector(std::vector<int>& arr) {
 
 		for (size_t i = limit; i > prevJacob; --i) {
 			int val = losers[i - 1];
-
-			int partner = -1;
-			for (size_t p = 0; p < pairs.size(); ++p) {
-				if (pairs[p].second == val) {
-					partner = pairs[p].first;
-					break;
-				}
-			}
+			int partner = partners[i - 1];
 
 			std::vector<int>::iterator end_it = std::find(winners.begin(), winners.end(), partner);
 			std::vector<int>::iterator pos = std::lower_bound(winners.begin(), end_it, val);
@@ -137,10 +156,14 @@ void PmergeMe::sortDeque(std::deque<int>& arr) {
 	sortDeque(winners);
 
 	std::deque<int> losers;
+	std::deque<int> partners;
+	std::deque<bool> paired(pairs.size(), false);
 	for (size_t i = 0; i < winners.size(); ++i) {
 		for (size_t j = 0; j < pairs.size(); ++j) {
-			if (pairs[j].first == winners[i]) {
+			if (!paired[j] && pairs[j].first == winners[i]) {
 				losers.push_back(pairs[j].second);
+				partners.push_back(pairs[j].first);
+				paired[j] = true;
 				break;
 			}
 		}
@@ -161,13 +184,7 @@ void PmergeMe::sortDeque(std::deque<int>& arr) {
 
 		for (size_t i = limit; i > prevJacob; --i) {
 			int val = losers[i - 1];
-			int partner = -1;
-			for (size_t p = 0; p < pairs.size(); ++p) {
-				if (pairs[p].second == val) {
-					partner = pairs[p].first;
-					break;
-				}
-			}
+			int partner = partners[i - 1];
 			std::deque<int>::iterator end_it = std::find(winners.begin(), winners.end(), partner);
 			std::deque<int>::iterator pos = std::lower_bound(winners.begin(), end_it, val);
 			winners.insert(pos, val);
@@ -190,36 +207,27 @@ void PmergeMe::execute(int argc, char **argv) {
 	std::deque<int> deq;
 
 	for (int i = 1; i < argc; ++i) {
-		std::string arg(argv[i]);
-
-		for (size_t j = 0; j < arg.size(); ++j) {
-			if (!std::isdigit(arg[j])) {
-				std::cerr << "Error\n";
-				return;
-			}
-		}
-
-		int value = std::atoi(arg.c_str());
-		if (std::find(vec.begin(), vec.end(), value) != vec.end()) {
-			std::cerr << "Error\n";
-			return;
-		}
-		vec.push_back(value);
-		deq.push_back(value);
+		parsePositiveInteger(argv[i]);
 	}
 
 	std::cout << "Before: ";
-	for (size_t i = 0; i < vec.size(); ++i) {
-		std::cout << vec[i] << " ";
+	for (int i = 1; i < argc; ++i) {
+		std::cout << parsePositiveInteger(argv[i]) << " ";
 	}
 	std::cout << "\n";
 
 	std::clock_t startVec = std::clock();
+	for (int i = 1; i < argc; ++i) {
+		vec.push_back(parsePositiveInteger(argv[i]));
+	}
 	sortVector(vec);
 	std::clock_t endVec = std::clock();
 	double microsecondsVec = (endVec - startVec) / static_cast<double>(CLOCKS_PER_SEC) * 1000000;
 
 	std::clock_t startDeq = std::clock();
+	for (int i = 1; i < argc; ++i) {
+		deq.push_back(parsePositiveInteger(argv[i]));
+	}
 	sortDeque(deq);
 	std::clock_t endDeq = std::clock();
 	double microsecondsDeq = (endDeq - startDeq) / static_cast<double>(CLOCKS_PER_SEC) * 1000000;
