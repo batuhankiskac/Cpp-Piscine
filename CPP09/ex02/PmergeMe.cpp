@@ -1,10 +1,16 @@
 #include "PmergeMe.hpp"
+#include <algorithm>
+#include <cctype>
+#include <climits>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <stdexcept>
+#include <utility>
 
 PmergeMe::PmergeMe() { }
 
-PmergeMe::PmergeMe(const PmergeMe& other) {
-	(void)other;
-}
+PmergeMe::PmergeMe(const PmergeMe& other) { (void)other; }
 
 PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 	(void)other;
@@ -14,28 +20,24 @@ PmergeMe& PmergeMe::operator=(const PmergeMe& other) {
 PmergeMe::~PmergeMe() { }
 
 int PmergeMe::parsePositiveInteger(const std::string& arg) const {
-	if (arg.empty()) {
+	if (arg.empty())
 		throw std::runtime_error("Error");
-	}
 
 	long value = 0;
 	for (size_t i = 0; i < arg.size(); ++i) {
-		if (!std::isdigit(static_cast<unsigned char>(arg[i]))) {
+		if (!std::isdigit(static_cast<unsigned char>(arg[i])))
 			throw std::runtime_error("Error");
-		}
-		int digit = arg[i] - '0';
-		if (value > (INT_MAX - digit) / 10) {
+		const int digit = arg[i] - '0';
+		if (value > (INT_MAX - digit) / 10)
 			throw std::runtime_error("Error");
-		}
 		value = value * 10 + digit;
 	}
-	if (value == 0) {
+	if (value == 0)
 		throw std::runtime_error("Error");
-	}
 	return static_cast<int>(value);
 }
 
-size_t PmergeMe::getJacobsthal(size_t n) {
+size_t PmergeMe::getJacobsthal(size_t n) const {
 	if (n == 0) return 0;
 	if (n == 1) return 1;
 
@@ -48,12 +50,12 @@ size_t PmergeMe::getJacobsthal(size_t n) {
 		prev2 = prev1;
 		prev1 = current;
 	}
-
 	return current;
 }
 
 void PmergeMe::sortVector(std::vector<int>& arr) {
-	if (arr.size() <= 1) return;
+	if (arr.size() <= 1)
+		return;
 
 	int remainder = -1;
 	if (arr.size() % 2 != 0) {
@@ -65,15 +67,12 @@ void PmergeMe::sortVector(std::vector<int>& arr) {
 	std::vector<int> winners;
 
 	for (size_t i = 0; i < arr.size(); i += 2) {
-		int a = arr[i];
-		int b = arr[i + 1];
-		if (a > b) {
-			pairs.push_back(std::make_pair(a, b));
-			winners.push_back(a);
-		} else {
-			pairs.push_back(std::make_pair(b, a));
-			winners.push_back(b);
-		}
+		int winner = arr[i];
+		int loser = arr[i + 1];
+		if (winner < loser)
+			std::swap(winner, loser);
+		pairs.push_back(std::make_pair(winner, loser));
+		winners.push_back(winner);
 	}
 
 	sortVector(winners);
@@ -92,45 +91,34 @@ void PmergeMe::sortVector(std::vector<int>& arr) {
 		}
 	}
 
-	if (!losers.empty()) {
+	if (!losers.empty())
 		winners.insert(winners.begin(), losers[0]);
-	}
 
 	size_t jacobIndex = 3;
 	size_t prevJacob = 1;
-	size_t insertedCount = 1;
 
-	while (insertedCount < losers.size()) {
-		size_t currentJacob = getJacobsthal(jacobIndex);
-		size_t limit = currentJacob;
-
-		if (limit > losers.size())
-			limit = losers.size();
-
+	while (prevJacob < losers.size()) {
+		const size_t limit = std::min(getJacobsthal(jacobIndex), losers.size());
 		for (size_t i = limit; i > prevJacob; --i) {
-			int val = losers[i - 1];
-			int partner = partners[i - 1];
-
-			std::vector<int>::iterator end_it = std::find(winners.begin(), winners.end(), partner);
-			std::vector<int>::iterator pos = std::lower_bound(winners.begin(), end_it, val);
-
-			winners.insert(pos, val);
+			const int value = losers[i - 1];
+			std::vector<int>::iterator end =
+				std::find(winners.begin(), winners.end(), partners[i - 1]);
+			winners.insert(std::lower_bound(winners.begin(), end, value), value);
 		}
-
-		insertedCount += (limit - prevJacob);
-		prevJacob = currentJacob;
-		jacobIndex++;
+		prevJacob = limit;
+		++jacobIndex;
 	}
 
-	if (remainder != -1) {
-		std::vector<int>::iterator pos = std::lower_bound(winners.begin(), winners.end(), remainder);
-		winners.insert(pos, remainder);
-	}
+	if (remainder != -1)
+		winners.insert(std::lower_bound(winners.begin(), winners.end(), remainder),
+			remainder);
 
 	arr = winners;
 }
+
 void PmergeMe::sortDeque(std::deque<int>& arr) {
-	if (arr.size() <= 1) return;
+	if (arr.size() <= 1)
+		return;
 
 	int remainder = -1;
 	if (arr.size() % 2 != 0) {
@@ -142,15 +130,12 @@ void PmergeMe::sortDeque(std::deque<int>& arr) {
 	std::deque<int> winners;
 
 	for (size_t i = 0; i < arr.size(); i += 2) {
-		int a = arr[i];
-		int b = arr[i + 1];
-		if (a > b) {
-			pairs.push_back(std::make_pair(a, b));
-			winners.push_back(a);
-		} else {
-			pairs.push_back(std::make_pair(b, a));
-			winners.push_back(b);
-		}
+		int winner = arr[i];
+		int loser = arr[i + 1];
+		if (winner < loser)
+			std::swap(winner, loser);
+		pairs.push_back(std::make_pair(winner, loser));
+		winners.push_back(winner);
 	}
 
 	sortDeque(winners);
@@ -169,75 +154,63 @@ void PmergeMe::sortDeque(std::deque<int>& arr) {
 		}
 	}
 
-	if (!losers.empty()) {
+	if (!losers.empty())
 		winners.insert(winners.begin(), losers[0]);
-	}
 
 	size_t jacobIndex = 3;
 	size_t prevJacob = 1;
-	size_t insertedCount = 1;
 
-	while (insertedCount < losers.size()) {
-		size_t currentJacob = getJacobsthal(jacobIndex);
-		size_t limit = currentJacob;
-		if (limit > losers.size()) limit = losers.size();
-
+	while (prevJacob < losers.size()) {
+		const size_t limit = std::min(getJacobsthal(jacobIndex), losers.size());
 		for (size_t i = limit; i > prevJacob; --i) {
-			int val = losers[i - 1];
-			int partner = partners[i - 1];
-			std::deque<int>::iterator end_it = std::find(winners.begin(), winners.end(), partner);
-			std::deque<int>::iterator pos = std::lower_bound(winners.begin(), end_it, val);
-			winners.insert(pos, val);
+			const int value = losers[i - 1];
+			std::deque<int>::iterator end =
+				std::find(winners.begin(), winners.end(), partners[i - 1]);
+			winners.insert(std::lower_bound(winners.begin(), end, value), value);
 		}
-		insertedCount += (limit - prevJacob);
-		prevJacob = currentJacob;
-		jacobIndex++;
+		prevJacob = limit;
+		++jacobIndex;
 	}
 
-	if (remainder != -1) {
-		std::deque<int>::iterator pos = std::lower_bound(winners.begin(), winners.end(), remainder);
-		winners.insert(pos, remainder);
-	}
+	if (remainder != -1)
+		winners.insert(std::lower_bound(winners.begin(), winners.end(), remainder),
+			remainder);
 
 	arr = winners;
 }
 
 void PmergeMe::execute(int argc, char **argv) {
-	std::vector<int> vec;
-	std::deque<int> deq;
-
-	for (int i = 1; i < argc; ++i) {
-		parsePositiveInteger(argv[i]);
-	}
+	std::vector<int> input;
+	for (int i = 1; i < argc; ++i)
+		input.push_back(parsePositiveInteger(argv[i]));
 
 	std::cout << "Before: ";
-	for (int i = 1; i < argc; ++i) {
-		std::cout << parsePositiveInteger(argv[i]) << " ";
-	}
-	std::cout << "\n";
+	for (size_t i = 0; i < input.size(); ++i)
+		std::cout << input[i] << " ";
+	std::cout << std::endl;
 
-	std::clock_t startVec = std::clock();
-	for (int i = 1; i < argc; ++i) {
-		vec.push_back(parsePositiveInteger(argv[i]));
-	}
+	std::vector<int> vec;
+	const std::clock_t startVec = std::clock();
+	vec = input;
 	sortVector(vec);
-	std::clock_t endVec = std::clock();
-	double microsecondsVec = (endVec - startVec) / static_cast<double>(CLOCKS_PER_SEC) * 1000000;
+	const double vectorTime = (std::clock() - startVec)
+		* 1000000.0 / CLOCKS_PER_SEC;
 
-	std::clock_t startDeq = std::clock();
-	for (int i = 1; i < argc; ++i) {
-		deq.push_back(parsePositiveInteger(argv[i]));
-	}
+	std::deque<int> deq;
+	const std::clock_t startDeq = std::clock();
+	deq.assign(input.begin(), input.end());
 	sortDeque(deq);
-	std::clock_t endDeq = std::clock();
-	double microsecondsDeq = (endDeq - startDeq) / static_cast<double>(CLOCKS_PER_SEC) * 1000000;
+	const double dequeTime = (std::clock() - startDeq)
+		* 1000000.0 / CLOCKS_PER_SEC;
 
 	std::cout << "After:  ";
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (size_t i = 0; i < vec.size(); ++i)
 		std::cout << vec[i] << " ";
-	}
-	std::cout << "\n";
+	std::cout << std::endl;
 
-	std::cout << "Time to process a range of " << vec.size() << " elements with std::vector : " << microsecondsVec << " us\n";
-	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque  : " << microsecondsDeq << " us\n";
+	std::cout << std::fixed << std::setprecision(5)
+		<< "Time to process a range of " << vec.size()
+		<< " elements with std::vector : " << vectorTime << " us\n"
+		<< "Time to process a range of " << deq.size()
+		<< " elements with std::deque  : " << dequeTime << " us\n";
 }

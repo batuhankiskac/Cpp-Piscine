@@ -1,21 +1,15 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <algorithm>
 #include <map>
-#include <fstream>
-#include <iostream>
-#include <stdexcept>
-#include <sstream>
 #include <string>
-#include <cstdlib>
-#include <cctype>
 
 class BitcoinExchange {
 private:
 	std::map<std::string, double> rates;
 
 	bool isValidDate(const std::string& date) const;
+	bool parseValue(const std::string& text, double& value) const;
 	std::string trim(const std::string& str) const;
 	void processLine(const std::string& line) const;
 

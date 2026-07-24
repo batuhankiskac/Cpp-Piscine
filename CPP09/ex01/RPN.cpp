@@ -1,74 +1,69 @@
-#include "Rpn.hpp"
+#include "RPN.hpp"
+#include <cctype>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
 
-Rpn::Rpn() { }
+RPN::RPN() { }
 
-Rpn::Rpn(const Rpn& other) { (void)other; }
+RPN::RPN(const RPN& other) { (void)other; }
 
-Rpn& Rpn::operator=(const Rpn& other) {
+RPN& RPN::operator=(const RPN& other) {
 	(void)other;
 	return *this;
 }
 
-Rpn::~Rpn() { }
+RPN::~RPN() { }
 
-bool Rpn::isOperator(const std::string& token) const {
-	return (token == "+" || token == "-" || token == "*" || token == "/");
+bool RPN::isOperator(const std::string& token) const {
+	return token.length() == 1
+		&& (token == "+" || token == "-" || token == "*" || token == "/");
 }
 
-bool Rpn::isNumber(const std::string& token) const {
-	if (token.length() == 1 && std::isdigit(token[0])) {
-		return true;
-	}
-
-	if (token.length() == 2 && token[0] == '-' && std::isdigit(token[1])) {
-		return true;
-	}
-	return false;
+bool RPN::isNumber(const std::string& token) const {
+	return (token.length() == 1
+			&& std::isdigit(static_cast<unsigned char>(token[0])))
+		|| (token.length() == 2 && token[0] == '-'
+			&& std::isdigit(static_cast<unsigned char>(token[1])));
 }
 
-double Rpn::applyOperator(char op, double a, double b) const {
+double RPN::applyOperator(char op, double a, double b) const {
 	switch (op) {
 		case '+': return a + b;
 		case '-': return a - b;
 		case '*': return a * b;
 		case '/':
-			if (b == 0) {
+			if (b == 0)
 				throw std::runtime_error("Error");
-			}
 			return a / b;
-		default:
-			throw std::runtime_error("Error");
+		default: throw std::runtime_error("Error");
 	}
-	return 0;
 }
 
-double Rpn::calculate(const std::string& str) const {
-	std::stack<double> stack;
-	std::istringstream ss(str);
+double RPN::calculate(const std::string& str) const {
+	std::stack<double> values;
+	std::istringstream stream(str);
 	std::string token;
 
-	while (ss >> token) {
+	while (stream >> token) {
 		if (isNumber(token)) {
-			double value = std::atof(token.c_str());
-			if (value >= 10 || value <= -10) {
-				throw std::runtime_error("Error");
-			}
-			stack.push(std::atof(token.c_str()));
-		} else if (isOperator(token)) {
-			if (stack.size() < 2) {
-				throw std::runtime_error("Error");
-			}
-			double b = stack.top(); stack.pop();
-			double a = stack.top(); stack.pop();
-			double result = applyOperator(token[0], a, b);
-			stack.push(result);
-		} else {
-			throw std::runtime_error("Error");
+			double value = token[token.length() - 1] - '0';
+			values.push(token[0] == '-' ? -value : value);
 		}
+		else if (isOperator(token)) {
+			if (values.size() < 2)
+				throw std::runtime_error("Error");
+			const double b = values.top();
+			values.pop();
+			const double a = values.top();
+			values.pop();
+			values.push(applyOperator(token[0], a, b));
+		}
+		else
+			throw std::runtime_error("Error");
 	}
 
-	if (stack.size() != 1) {
+	if (values.size() != 1)
 		throw std::runtime_error("Error");
-	}
-	return stack.top();
+	return values.top();
 }

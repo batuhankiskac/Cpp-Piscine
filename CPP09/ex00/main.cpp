@@ -3,7 +3,7 @@
 
 int main(int argc, const char *argv[]) {
 	if (argc != 2) {
-		std::cerr << "Error: Could not open file." << std::endl;
+		std::cerr << "Error: could not open file." << std::endl;
 		return -1;
 	}
 

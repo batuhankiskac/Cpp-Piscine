@@ -1,4 +1,6 @@
-#include "Rpn.hpp"
+#include "RPN.hpp"
+#include <exception>
+#include <iostream>
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
@@ -7,7 +9,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	try {
-		Rpn rpn;
+		RPN rpn;
 		double result = rpn.calculate(argv[1]);
 		std::cout << result << std::endl;
 	} catch (const std::exception& e) {
